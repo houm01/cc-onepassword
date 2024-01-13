@@ -24,6 +24,17 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - name: Load secret
+      uses: 1password/load-secrets-action@v1
+      with:
+        export-env: true
+      env:
+          OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+          SECRET: op://my1password/PyPI/token
+
+    - name: Print masked secret
+      run: echo "Secret: $SECRET"
+
     - name: Set up Python
       uses: actions/setup-python@v3
       with:
@@ -35,7 +46,7 @@ jobs:
     - name: Build and publish
       env:
         TWINE_USERNAME: __token__
-        TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}  # 添加你在 GitHub 仓库 Secrets 中设置的名为 PYPI_TOKEN 的 token
+        TWINE_PASSWORD: $SECRET  # 添加你在 GitHub 仓库 Secrets 中设置的名为 PYPI_TOKEN 的 token
       run: |
         python setup.py sdist bdist_wheel
         twine upload dist/*
