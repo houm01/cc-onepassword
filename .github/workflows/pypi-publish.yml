@@ -32,8 +32,8 @@ jobs:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
           SECRET: op://my1password/PyPI/token
 
-    - name: Print masked secret
-      run: echo "Secret: $SECRET"
+    # - name: Print masked secret
+    #   run: echo "Secret: $SECRET"
 
     - name: Set up Python
       uses: actions/setup-python@v3
